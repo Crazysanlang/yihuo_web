@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>编组 8</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="订单管理" transform="translate(-38.000000, -123.000000)">
+            <g id="编组-8" transform="translate(38.000000, 123.000000)">
+                <polyline id="路径" stroke="#FFFFFF" stroke-width="2" points="11.0434264 21 2.94342636 21 2.94342636 3 20.9434264 3 20.9434264 9.34285714"></polyline>
+                <path d="M17.5,11.1547005 L22.1291651,13.8273503 L22.1291651,19.1726497 L17.5,21.8452995 L12.8708349,19.1726497 L12.8708349,13.8273503 L17.5,11.1547005 Z" id="多边形" stroke="#FFFFFF" stroke-width="2"></path>
+                <path d="M17.4434264,18 C18.2718535,18 18.9434264,17.3284271 18.9434264,16.5 C18.9434264,15.6715729 18.2718535,15 17.4434264,15 C16.6149992,15 15.9434264,15.6715729 15.9434264,16.5 C15.9434264,17.3284271 16.6149992,18 17.4434264,18 Z" id="椭圆形" fill="#FFFFFF"></path>
+                <rect id="矩形" fill="#FFFFFF" x="7" y="7" width="10" height="2"></rect>
+                <rect id="矩形备份-18" fill="#FFFFFF" x="7" y="13" width="3" height="2"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

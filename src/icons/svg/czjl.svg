@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>左侧导航</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="充值记录" transform="translate(-38.000000, -373.000000)">
+            <rect fill="#F4F6F9" x="0" y="0" width="1440" height="820"></rect>
+            <g id="左侧导航">
+                <polygon id="蒙版" fill="#182E51" points="0 0 240 0 240 820 0 820"></polygon>
+                <polygon id="矩形备份-6" points="-1.06334242e-13 360 239.443426 360 239.443426 410 -1.06334242e-13 410"></polygon>
+                <rect id="矩形" fill="#26416C" x="30" y="367" width="180" height="36" rx="6"></rect>
+                <g id="编组-9" transform="translate(38.000000, 373.000000)" stroke="#FFFFFF" stroke-width="2">
+                    <path d="M20.5478374,15.8277119 C21.0367375,14.6486797 21.3065736,13.3558516 21.3065736,12 C21.3065736,6.4771525 16.8294211,2 11.3065736,2 C5.78372614,2 1.30657364,6.4771525 1.30657364,12 C1.30657364,17.5228475 5.78372614,22 11.3065736,22 L18.3065736,22 L15.3065736,19" id="路径"></path>
+                    <line x1="8.80657364" y1="11.5" x2="14.8065736" y2="11.5" id="直线-3" stroke-linecap="square"></line>
+                    <line x1="8.80657364" y1="14.5" x2="14.8065736" y2="14.5" id="直线-3备份" stroke-linecap="square"></line>
+                    <line x1="11.8065736" y1="11.5" x2="11.8065736" y2="16.5" id="直线-4" stroke-linecap="square"></line>
+                    <line x1="9.03880669" y1="8.23223305" x2="11.8672338" y2="11.0606602" id="直线-4备份" stroke-linecap="square"></line>
+                    <line x1="11.7459135" y1="8.23223305" x2="14.5743406" y2="11.0606602" id="直线-4备份-2" stroke-linecap="square" transform="translate(13.160127, 9.646447) scale(-1, 1) translate(-13.160127, -9.646447) "></line>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

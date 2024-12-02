@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>编组</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="会员列表" transform="translate(-38.000000, -323.000000)">
+            <rect fill="#F4F6F9" x="0" y="0" width="1440" height="820"></rect>
+            <g id="左侧导航">
+                <polygon id="蒙版" fill="#182E51" points="0 0 240 0 240 820 0 820"></polygon>
+                <polygon id="矩形备份-5" points="-1.06334242e-13 310 239.443426 310 239.443426 360 -1.06334242e-13 360"></polygon>
+                <rect id="矩形" fill="#26416C" x="30" y="317" width="180" height="36" rx="6"></rect>
+                <g id="编组" transform="translate(38.000000, 323.000000)">
+                    <circle id="椭圆形" stroke="#FFFFFF" stroke-width="2" cx="9.05657364" cy="8.5" r="5"></circle>
+                    <path d="M9.05657364,13.5 C11.1674455,13.5 13.0816963,14.2435539 14.4510817,15.5323872 C15.7569759,16.761464 16.5565736,18.485425 16.5565736,20.5 L1.556,20.5 L1.56253396,20.2000189 C1.63383784,18.4135163 2.34093721,16.8706839 3.47001533,15.7204348 L3.66206557,15.5323872 C5.03145095,14.2435539 6.94570173,13.5 9.05657364,13.5 Z" id="路径" stroke="#FFFFFF" stroke-width="2"></path>
+                    <rect id="矩形备份-19" fill="#FFFFFF" x="17.0565736" y="5.5" width="7" height="2"></rect>
+                    <rect id="矩形备份-20" fill="#FFFFFF" x="18.0565736" y="10.5" width="6" height="2"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

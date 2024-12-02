@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon_announcement</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="公告管理" transform="translate(-38.000000, -423.000000)">
+            <g id="icon_announcement" transform="translate(38.000000, 423.000000)">
+                <rect id="矩形" fill="#FFFFFF" x="18" y="11" width="4" height="2"></rect>
+                <rect id="矩形" fill="#FFFFFF" transform="translate(20.000000, 18.000000) rotate(30.000000) translate(-20.000000, -18.000000) " x="18" y="17" width="4" height="2"></rect>
+                <rect id="矩形" fill="#FFFFFF" transform="translate(20.000000, 6.000000) scale(1, -1) rotate(30.000000) translate(-20.000000, -6.000000) " x="18" y="5" width="4" height="2"></rect>
+                <path d="M15,2.69951446 L15,21.3004855 L7.25912603,17 L3,17 L3,7 L7.25912603,7 L15,2.69951446 Z" id="形状结合" stroke="#FFFFFF" stroke-width="2"></path>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>左侧导航</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="当前买单" transform="translate(-38.000000, -173.000000)">
+            <g id="编组-5" transform="translate(38.000000, 173.000000)">
+                <polyline id="路径" stroke="#798CAB" stroke-width="2" points="12.0667308 21 3 21 3 3 21 3 21 12.1176471"></polyline>
+                <rect id="矩形" fill="#798CAB" x="7.06768864" y="7.04257346" width="10" height="2"></rect>
+                <rect id="矩形备份-7" fill="#798CAB" x="13.0581533" y="16.0587598" width="8" height="2"></rect>
+                <rect id="矩形备份-7" fill="#798CAB" transform="translate(17.058153, 17.058760) rotate(-270.000000) translate(-17.058153, -17.058760) " x="13.0581533" y="16.0587598" width="8" height="2"></rect>
+                <rect id="矩形备份-18" fill="#798CAB" x="7.06768864" y="12.0425735" width="4" height="2"></rect>
+            </g>
+        </g>
+    </g>
+</svg>
