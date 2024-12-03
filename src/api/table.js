@@ -1,5 +1,19 @@
 import request from '@/utils/request'
 
+export function setting(data) {
+  return request({
+    url: '/settings',
+    method: 'post',
+    data
+  })
+}
+export function getsettings(data) {
+  return request({
+    url: '/getsettings',
+    method: 'post',
+    data
+  })
+}
 export function getShopList(data) {
   return request({
     url: '/goods/list',

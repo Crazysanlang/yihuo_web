@@ -97,6 +97,16 @@ export const constantRoutes = [
       meta: { title: '认购列表', icon: 'ddgl' }
     }]
   },
+  {
+    path: '/setting',
+    component: Layout,
+    children: [{
+      path: 'index',
+      name: 'setting',
+      component: () => import('@/views/setting/index'),
+      meta: { title: '平台设置', icon: 'ddgl' }
+    }]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
