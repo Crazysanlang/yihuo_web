@@ -99,6 +99,34 @@ export function deleteNft(data) {
     data
   })
 }
+export function splitNft(data) {
+  return request({
+    url: '/nft/split',
+    method: 'post',
+    data
+  })
+}
+export function mergeNft(data) {
+  return request({
+    url: '/nft/join',
+    method: 'post',
+    data
+  })
+}
+export function batListing(data) {
+  return request({
+    url: '/nft/batchlisting',
+    method: 'post',
+    data
+  })
+}
+export function batchxiadan(data) {
+  return request({
+    url: '/nft/batchxiadan',
+    method: 'post',
+    data
+  })
+}
 export function queryTXlist(data) {
   return request({
     url: '/points/withdraw/list',
@@ -127,10 +155,6 @@ export function updateTXlist(data) {
     data
   })
 }
-
-
-
-
 
 export function getUserList(data) {
   return request({
@@ -283,6 +307,28 @@ export function sendMsg(data) {
 export function setCopy(data) {
   return request({
     url: '/admin_set_copy',
+    method: 'post',
+    data
+  })
+}
+
+export function getAccountList(data) {
+  return request({
+    url: '/account/list',
+    method: 'post',
+    data
+  })
+}
+export function addAccount(data) {
+  return request({
+    url: '/account/add',
+    method: 'post',
+    data
+  })
+}
+export function deleteAccount(data) {
+  return request({
+    url: '/account/remove',
     method: 'post',
     data
   })

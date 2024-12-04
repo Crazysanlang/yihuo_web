@@ -2,57 +2,20 @@
   <div>
     <div class="filterBox">
       <el-form ref="form" inline size="small" :model="form" label-width="100px">
-        <el-form-item label="状态">
-          <el-radio-group v-model="form.valid" size="small" @input="handleValueChange">
-            <el-radio-button label="0">未上架</el-radio-button>
-            <el-radio-button label="1">首发</el-radio-button>
-            <el-radio-button label="2">流通中</el-radio-button>
-            <el-radio-button label="3">转售中</el-radio-button>
-            <el-radio-button label="4">下架</el-radio-button>
-          </el-radio-group>
-        </el-form-item>
         <el-form-item>
           <el-button style="margin-left:40px;" size="small" type="primary" icon="el-icon-search" @click="onSubmit">查询</el-button>
         </el-form-item>
       </el-form>
     </div>
     <div class="list">
-      <div style="display: flex;justify-content: space-between;">
-        <div>
-          <el-button type="success" @click="handleBat">合并NFT</el-button>
-          <el-button type="primary" @click="handleBatListing">批量上架</el-button>
-          <el-button type="primary" @click="handleBatxiajia">批量下架</el-button>
-        </div>
-        <el-button icon="el-icon-plus" type="primary" @click="handleAddDialog">新增</el-button>
+      <div style="display: flex;justify-content: flex-end;">
+        <el-button icon="el-icon-plus" type="primary" @click="()=>{centerDialogVisible=true;isAdd = true}">新增</el-button>
       </div>
       <div class="tableCont">
-        <el-table v-loading="loading" style="width: 100%" :data="list" element-loading-text="Loading" @selection-change="handleSelectionChange">
-          <el-table-column
-            type="selection"
-            width="55"
-          />
-          <el-table-column label="名称" align="left">
+        <el-table v-loading="loading" style="width: 100%" :data="list" element-loading-text="Loading">
+          <el-table-column label="用户名" align="left">
             <template slot-scope="scope">
-              {{ scope.row.name }}
-            </template>
-          </el-table-column>
-          <el-table-column label="描述" align="left">
-            <template slot-scope="scope">
-              <span>{{ scope.row.desc }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="图片" align="left" width="150">
-            <template slot-scope="scope">
-              <el-image
-                style="width: 100px; height: 100px"
-                :src="formatUrl(scope.row.img)"
-                fit="fit"
-              />
-            </template>
-          </el-table-column>
-          <el-table-column label="状态" align="left" width="80">
-            <template slot-scope="scope">
-              <span>{{ validList[scope.row.valid] }}</span>
+              {{ scope.row.user }}
             </template>
           </el-table-column>
           <el-table-column align="left" label="创建时间" width="180">
@@ -61,29 +24,20 @@
               <span>{{ formatTime(scope.row.createdAt) }}</span>
             </template>
           </el-table-column>
-          <el-table-column align="left" label="更新时间" width="180">
-            <template slot-scope="scope">
-              <i class="el-icon-time" />
-              <span>{{ formatTime(scope.row.updatedAt) }}</span>
-            </template>
-          </el-table-column>
           <el-table-column
             fixed="right"
             align="center"
             label="操作"
-            width="180"
+            width="160"
           >
             <template slot-scope="scope">
-              <el-button style="margin:0 auto;" type="text" size="small" @click="showDialog(scope.row)"><span>修改</span></el-button>
-              <el-button style="margin:0 5px;" type="text" size="small" @click="handleDelete(scope.row)"><span>删除</span></el-button>
-              <el-button style="margin:0 5px;" type="text" size="small" @click="handleListing(scope.row)"><span>上架</span></el-button>
-              <el-button type="text" size="small" @click="handleSplit(scope.row)"><span>拆分</span></el-button>
+              <el-button style="margin:0 20px;" type="danger" size="small" @click="handleDelete(scope.row)"><span>删除</span></el-button>
             </template>
           </el-table-column>
         </el-table>
       </div>
     </div>
-    <div style="text-align: right;">
+    <div style="text-align: right;" v-if="false">
       <el-pagination
         :page-size="pageSize"
         background
@@ -93,52 +47,18 @@
       />
     </div>
     <el-dialog
-      title="上架"
-      :visible.sync="dialogVisible"
-      width="500px"
-    >
-      <div class="block">
-        <el-date-picker
-          v-model="dialogListingForm.time"
-          type="date"
-          placeholder="选择日期"
-          value-format="timestamp"
-        />
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="handleListingConfirm">确 定</el-button>
-      </span>
-    </el-dialog>
-    <el-dialog
-      :title="dialogTitle + 'NFT'"
+      :title="isAdd ? '新增':'修改'"
       :visible.sync="centerDialogVisible"
       width="400px"
       :before-close="handleClose"
       center
     >
       <el-form ref="form" size="small" :model="dialogForm" :rules="rules" label-width="80px">
-        <el-form-item label="名称" prop="name">
-          <el-input v-model="dialogForm.name" />
+        <el-form-item label="用户名" prop="user">
+          <el-input v-model="dialogForm.user" />
         </el-form-item>
-        <el-form-item label="描述" prop="desc">
-          <el-input v-model="dialogForm.desc" />
-        </el-form-item>
-        <el-form-item label="价格" prop="price">
-          <el-input v-model="dialogForm.price" />
-        </el-form-item>
-        <el-form-item label="图片" prop="img">
-          <el-upload
-            class="avatar-uploader"
-            action="https://hongkongbarter.com/admin/upload"
-            :show-file-list="false"
-            :headers="headers"
-            name="img"
-            :on-success="handleAvatarSuccess"
-          >
-            <img v-if="imageUrl" :src="imageUrl" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon" />
-          </el-upload>
+        <el-form-item label="密码" prop="password">
+          <el-input v-model="dialogForm.password" />
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -146,31 +66,11 @@
         <el-button type="primary" size="small" @click="handleConfirm">确 定</el-button>
       </span>
     </el-dialog>
-    <el-dialog
-      title="拆分NFT"
-      :visible.sync="splitDialogVisible"
-      width="400px"
-      :before-close="handleClose"
-      center
-    >
-      <el-form ref="splitForm" size="small" :model="splitDialogForm" :rules="rules" label-width="80px">
-        <el-form-item label="拆分数量" prop="count">
-          <el-input v-model="splitDialogForm.count" />
-        </el-form-item>
-        <el-form-item label="拆分价格" prop="splitPrice">
-          <el-input v-model="splitDialogForm.splitPrice" />
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button size="small" @click="centerDialogVisible = false">取 消</el-button>
-        <el-button type="primary" size="small" @click="handleConfirmSplit">确定拆分</el-button>
-      </span>
-    </el-dialog>
   </div>
 </template>
 
 <script>
-import { getList, addNft, deleteNft, updateNft, listingNft, splitNft, mergeNft, batListing, batchxiadan } from '@/api/table'
+import { getAccountList, addAccount, deleteAccount } from '@/api/table'
 import dayjs from 'dayjs'
 import ClipboardJS from 'clipboard'
 import { getToken } from '@/utils/auth'
@@ -179,7 +79,7 @@ export default {
   name: 'Order',
   data() {
     return {
-      dialogListingForm: {
+      dialogListingForm:{
         id: '',
         time: ''
       },
@@ -195,45 +95,20 @@ export default {
         'authorization': getToken()
       },
       dialogForm: {
-        name: '',
-        desc: '',
-        price: '',
-        img: ''
-      },
-      splitDialogForm: {
-        id: '',
-        count: '',
-        splitPrice: ''
+        user: '',
+        password: ''
       },
 
       rules: {
-        name: [
-          { required: true, message: '请输入名称', trigger: 'blur' }
+        user: [
+          { required: true, message: '请输入用户名', trigger: 'blur' }
         ],
-        desc: [
-          { required: true, message: '请输入描述', trigger: 'blur' }
-        ],
-        price: [
-          { required: true, message: '请输入价格', trigger: 'blur' }
-        ],
-        img: [
-          { required: true }
-        ],
-        count: [
-          { required: true, message: '请输入拆分数量', trigger: 'blur' }
-        ],
-        splitPrice: [
-          { required: true, message: '请输入拆分价格', trigger: 'blur' }
+        password: [
+          { required: true, message: '请输入密码', trigger: 'blur' }
         ]
-
       },
       centerDialogVisible: false,
-      splitDialogVisible: false,
-      multipleSelection: [],
       isAdd: false,
-      isEdit: false,
-      isBat: false,
-      dialogTitle: '',
       dialogVisible: false,
       rmbAmount: '',
       uPrice: 0,
@@ -275,75 +150,6 @@ export default {
     clearInterval(this.interval)
   },
   methods: {
-    handleBatListing() {
-      if (this.multipleSelection.length == 0) {
-        this.$message.error('请选择需要上架的NFT')
-        return
-      }
-      this.$confirm('确定批量上架, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        const ids = this.multipleSelection
-        batListing({ ids }).then(() => {
-          this.$message.success('上架成功！')
-          this.fetchData()
-        })
-      })
-    },
-    handleBatxiajia() {
-      if (this.multipleSelection.length == 0) {
-        this.$message.error('请选择需要下架的NFT')
-        return
-      }
-      this.$confirm('确定批量下架, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        const ids = this.multipleSelection
-        batchxiadan({ ids }).then(() => {
-          this.$message.success('下架成功')
-          this.fetchData()
-        })
-      })
-    },
-    handleBat() {
-      if (this.multipleSelection.length == 0) {
-        this.$message.error('请选择需要合并的NFT')
-        return
-      }
-      this.dialogTitle = '合并'
-      this.isAdd = false
-      this.isEdit = false
-      this.isBat = true
-      this.centerDialogVisible = true
-    },
-    handleSelectionChange(val) {
-      console.log('🚀 ~ handleSelectionChange ~ val:', val)
-      this.multipleSelection = val.map(item => item.id)
-    },
-    handleSplit(row) {
-      this.splitDialogVisible = true
-      this.splitDialogForm.id = row.id
-    },
-    handleConfirmSplit() {
-      this.$refs.splitForm.validate(valid => {
-        if (valid) {
-          const { count, splitPrice } = this.splitDialogForm
-          const prices = Array.from({ length: Number(count) }, (v, i) => Number(splitPrice))
-          const parmas = {
-            id: this.splitDialogForm.id,
-            prices: prices
-          }
-          splitNft(parmas).then(() => {
-            this.$message.success('拆分成功！')
-            this.fetchData()
-          })
-        }
-      })
-    },
     handleListingConfirm() {
       const { id, time } = this.dialogListingForm
       if (!time) {
@@ -367,7 +173,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteNft({ id: row.id }).then(() => {
+        deleteAccount({ id: row.id }).then(() => {
           this.$message.success('操作成功！')
           this.fetchData()
         })
@@ -398,20 +204,10 @@ export default {
       }
       done()
     },
-    handleAddDialog() {
-      this.centerDialogVisible = true
-      this.isAdd = true
-      this.isEdit = false
-      this.isBat = false
-      this.dislogTitle = '新增'
-    },
     showDialog(row) {
       this.curId = row.id
       this.dialogForm = { ...row }
       this.isAdd = false
-      this.isEdit = true
-      this.isBat = false
-      this.dislogTitle = '编辑'
       this.imageUrl = this.formatUrl(row.img)
       this.centerDialogVisible = true
     },
@@ -454,67 +250,27 @@ export default {
     handleConfirm(row) {
       this.$refs.form.validate(valid => {
         if (valid) {
-          if (this.isAdd || this.isEdit) {
-            this.$confirm(`确定${this.isAdd ? '新增' : '修改'}, 是否继续?`, '提示', {
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
-              type: 'success'
-            }).then(() => {
-              const params = {
-                ...this.dialogForm,
-                price: Number(this.dialogForm.price)
-              }
-              if (this.isAdd) {
-                addNft(params).then(() => {
-                  this.$message.success('操作成功！')
-                  this.dialogForm = {
-                    name: '',
-                    desc: '',
-                    price: '',
-                    img: ''
-                  }
-                  this.centerDialogVisible = false
-                  this.fetchData()
-                })
-              }
-              if (this.isEdit) {
-                updateNft(params).then(() => {
-                  this.$message.success('操作成功！')
-                  this.dialogForm = {
-                    name: '',
-                    desc: '',
-                    price: '',
-                    img: ''
-                  }
-                  this.centerDialogVisible = false
-                  this.fetchData()
-                })
-              }
-            })
-          }
-          if (this.isBat) {
-            this.$confirm(`确定合并, 是否继续?`, '提示', {
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
-              type: 'success'
-            }).then(() => {
-              const params = {
-                ...this.dialogForm,
-                ids: this.multipleSelection
-              }
-              mergeNft(params).then(() => {
+          this.$confirm(`确定${this.isAdd ? '新增' : '修改'}, 是否继续?`, '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'success'
+          }).then(() => {
+            const params = {
+              ...this.dialogForm
+            }
+            if (this.isAdd) {
+              addAccount(params).then(() => {
                 this.$message.success('操作成功！')
                 this.dialogForm = {
-                  name: '',
-                  desc: '',
-                  price: '',
-                  img: ''
+                  user: '',
+                  password: ''
+
                 }
                 this.centerDialogVisible = false
                 this.fetchData()
               })
-            })
-          }
+            }
+          })
         }
       })
     },
@@ -534,8 +290,8 @@ export default {
         page: this.page,
         pageSize: this.pageSize
       }
-      getList(params).then(response => {
-        this.list = response.data.rows
+      getAccountList(params).then(response => {
+        this.list = response.data
         this.total = response.data.count
         this.loading = false
       })

@@ -107,6 +107,16 @@ export const constantRoutes = [
       meta: { title: '平台设置', icon: 'ddgl' }
     }]
   },
+  {
+    path: '/account',
+    component: Layout,
+    children: [{
+      path: 'index',
+      name: 'account',
+      component: () => import('@/views/account/index'),
+      meta: { title: '账户管理', icon: 'ddgl' }
+    }]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
