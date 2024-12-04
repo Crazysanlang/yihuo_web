@@ -18,12 +18,12 @@
               {{ scope.row.user }}
             </template>
           </el-table-column>
-          <el-table-column align="left" label="创建时间" width="180">
+          <!-- <el-table-column align="left" label="创建时间" width="180">
             <template slot-scope="scope">
               <i class="el-icon-time" />
               <span>{{ formatTime(scope.row.createdAt) }}</span>
             </template>
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column
             fixed="right"
             align="center"
@@ -37,7 +37,7 @@
         </el-table>
       </div>
     </div>
-    <div style="text-align: right;" v-if="false">
+    <div v-if="false" style="text-align: right;">
       <el-pagination
         :page-size="pageSize"
         background
@@ -79,7 +79,7 @@ export default {
   name: 'Order',
   data() {
     return {
-      dialogListingForm:{
+      dialogListingForm: {
         id: '',
         time: ''
       },
@@ -150,23 +150,7 @@ export default {
     clearInterval(this.interval)
   },
   methods: {
-    handleListingConfirm() {
-      const { id, time } = this.dialogListingForm
-      if (!time) {
-        this.$message.error('请选择上架时间')
-        return
-      }
-      listingNft({ id: id, opentime: new Date(time) }).then(() => {
-        this.$message.success('上架成功！')
-        this.fetchData()
-        this.dialogVisible = false
-      })
-    },
-    handleListing(row) {
-      this.dialogListingForm.id = row.id
-      this.dialogListingForm.time = dayjs().valueOf()
-      this.dialogVisible = true
-    },
+
     handleDelete(row) {
       this.$confirm('确定删除, 是否继续?', '提示', {
         confirmButtonText: '确定',
@@ -179,28 +163,11 @@ export default {
         })
       })
     },
-    formatUrl(url) {
-      // 判断是否是https链接 是的话直接return 否的话拼接https链接
-      if (url.indexOf('https') === 0) {
-        return url
-      } else {
-        return 'https://hongkongbarter.com/' + url
-      }
-    },
-    handleAvatarSuccess(res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw)
-      if (res.code == 200) {
-        this.dialogForm.img = res.filename
-      } else {
-        this.$message.error('图片filename获取失败')
-      }
-    },
+
     handleClose(done) {
       this.dialogForm = {
-        title: '',
-        content: '',
-        publishTime: '',
-        visibility: true
+        user: '',
+        password: ''
       }
       done()
     },
@@ -211,45 +178,18 @@ export default {
       this.imageUrl = this.formatUrl(row.img)
       this.centerDialogVisible = true
     },
-    handleCopy(item, index) {
-      const clipboard1 = new ClipboardJS('#copyBtn' + index)
-      console.log(clipboard1)
-      clipboard1.on('success', (e) => {
-        this.$message.success('复制成功')
-        e.clearSelection()
-      })
-      setTimeout(() => {
-        this.fetchData()
-      }, 800)
-    },
     // 时间格式化
     formatTime(time) {
       return dayjs(time).format('YYYY-MM-DD HH:mm:ss')
     },
-    handleChange(row) {
-      this.$prompt('修改买家姓名', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning',
-        inputValidator: (value) => {
-          if (!value) return false
-        },
-        inputErrorMessage: '买家姓名不能为空'
-      }).then(({ value }) => {
-        updateStatus({ id: row._id, stage: '0', buyer: value }).then(() => {
-          this.$message.success('操作成功！')
-          this.fetchData()
-        })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '取消输入'
-        })
-      })
-    },
+
     handleConfirm(row) {
       this.$refs.form.validate(valid => {
         if (valid) {
+          if (this.dialogForm.password.length < 6) {
+            this.$message.error('密码长度不能小于6位')
+            return
+          }
           this.$confirm(`确定${this.isAdd ? '新增' : '修改'}, 是否继续?`, '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
