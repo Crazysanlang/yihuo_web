@@ -45,7 +45,7 @@ export function deleteShopList(data) {
 }
 export function orderList2(data) {
   return request({
-    url: '/goods/order/list',
+    url: '/goods/list',
     method: 'post',
     data
   })
@@ -60,6 +60,13 @@ export function updateOrderList2(data) {
 export function subscriptionList(data) {
   return request({
     url: '/order/list',
+    method: 'post',
+    data
+  })
+}
+export function orderUpdate(data) {
+  return request({
+    url: '/order/update',
     method: 'post',
     data
   })
@@ -166,6 +173,13 @@ export function getUserList(data) {
 export function setUserPoint(data) {
   return request({
     url: '/user/setpoint',
+    method: 'post',
+    data
+  })
+}
+export function banUser(data) {
+  return request({
+    url: '/user/ban',
     method: 'post',
     data
   })
