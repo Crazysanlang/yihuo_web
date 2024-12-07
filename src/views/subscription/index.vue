@@ -8,9 +8,7 @@
             <el-radio-button label="1">已竞拍未付款</el-radio-button>
             <el-radio-button label="2">已竞拍已付款未确认</el-radio-button>
             <el-radio-button label="3">已竞拍已付款已确认收款</el-radio-button>
-            <el-radio-button label="4">转售中</el-radio-button>
-            <el-radio-button label="5">已出售</el-radio-button>
-            <el-radio-button label="6">流拍</el-radio-button>
+            <el-radio-button label="4">流拍</el-radio-button>
           </el-radio-group>
         </el-form-item>
         <el-form-item>
@@ -125,18 +123,14 @@ export default {
         1: '已竞拍未付款',
         2: '已竞拍已付款未确认',
         3: '已竞拍已付款已确认收款',
-        4: '转售中',
-        5: '已出售',
-        6: '流拍'
+        4: '流拍'
       },
       statusListArry: [
         { label: '未成交', value: 0 },
         { label: '已竞拍未付款', value: 1 },
         { label: '已竞拍已付款未确认', value: 2 },
         { label: '已竞拍已付款已确认收款', value: 3 },
-        { label: '转售中', value: 4 },
-        { label: '已出售', value: 5 },
-        { label: '流拍', value: 6 }
+        { label: '流拍', value: 4 }
       ],
       centerDialogVisible: false,
       dialogForm: {
