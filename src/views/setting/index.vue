@@ -19,6 +19,11 @@
           <el-time-picker v-model="valueTime" format="HH:mm" value-format="HH:mm" placeholder="选择时间" style="width: 100%;" />
         </el-form-item>
       </el-form-item>
+      <el-form-item label="封盘时间" required>
+        <el-form-item prop="stoptime">
+          <el-time-picker v-model="stopValueTime" format="HH:mm" value-format="HH:mm" placeholder="选择时间" style="width: 100%;" />
+        </el-form-item>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')">确定</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
@@ -34,11 +39,13 @@ export default {
   data() {
     return {
       valueTime: '',
+      stopValueTime: '',
       ruleForm: {
         point_persent: '',
         diyajin: '',
         yuyuetime: '',
-        opentimeOrigin: ''
+        opentimeOrigin: '',
+        stoptimeOrigin: ''
       },
       rules: {
         point_persent: [
@@ -52,6 +59,9 @@ export default {
         ],
         opentimeOrigin: [
           { required: true, message: '请选择开盘时间', trigger: 'change' }
+        ],
+        stoptimeOrigin: [
+          { required: true, message: '请选择封盘时间', trigger: 'change' }
         ]
       }
     }
@@ -62,6 +72,13 @@ export default {
         this.ruleForm.opentimeOrigin = newVal
       } else {
         this.ruleForm.opentimeOrigin = ''
+      }
+    },
+    'stopValueTime': function(newVal) {
+      if (newVal) {
+        this.ruleForm.stoptimeOrigin = newVal
+      } else {
+        this.ruleForm.stoptimeOrigin = ''
       }
     }
   },
@@ -75,27 +92,39 @@ export default {
       this.valueTime = time.format('HH:mm')
       this.ruleForm.opentimeOrigin = time.format('HH:mm')
     },
+    setTimeFromString2(timeString) {
+      const [hours, minutes] = timeString.split(':').map(Number)
+      const time = dayjs().hour(hours).minute(minutes).second(0).millisecond(0)
+      this.stopValueTime = time.format('HH:mm')
+      this.ruleForm.stoptimeOrigin = time.format('HH:mm')
+    },
     querySetting() {
       getsettings({}).then((res) => {
         this.ruleForm = res.data
         const tt = `${Math.floor(res.data.opentime / 3600)}:${Math.floor((res.data.opentime % 3600) / 60)}`
+        const tt2 = `${Math.floor(res.data.stoptime / 3600)}:${Math.floor((res.data.stoptime % 3600) / 60)}`
         this.setTimeFromString(tt)
+        this.setTimeFromString2(tt2)
       })
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          const { opentimeOrigin } = this.ruleForm
+          const { opentimeOrigin, stoptimeOrigin } = this.ruleForm
           // 把opentimeOrigin时间转换为秒数
           const [hours, minutes] = opentimeOrigin.split(':').map(Number)
           const seconds = hours * 3600 + minutes * 60
+          const [hours2, minutes2] = stoptimeOrigin.split(':').map(Number)
+          const seconds2 = hours2 * 3600 + minutes2 * 60
           const params = {
             point_persent: Number(this.ruleForm.point_persent),
             diyajin: Number(this.ruleForm.diyajin),
             yuyuetime: Number(this.ruleForm.yuyuetime),
-            opentime: seconds
+            opentime: seconds,
+            stoptime: seconds2
           }
           delete params.opentimeOrigin
+          delete params.stoptimeOrigin
           setting(params).then((res) => {
             this.$message.success('操作成功')
             this.querySetting()
