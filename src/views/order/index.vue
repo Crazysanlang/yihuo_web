@@ -31,6 +31,11 @@
             type="selection"
             width="55"
           />
+          <el-table-column label="订单昵称" align="left">
+            <template slot-scope="scope">
+              {{ scope.row.nickname }}
+            </template>
+          </el-table-column>
           <el-table-column label="名称" align="left">
             <template slot-scope="scope">
               {{ scope.row.name }}
@@ -161,10 +166,17 @@
     <el-dialog
       title="拆分NFT"
       :visible.sync="splitDialogVisible"
-      width="400px"
+      width="600px"
       :before-close="handleClose"
       center
+      append-to-body
     >
+      <div>
+        <div style="font-size: 16px;color: #303133;margin-bottom: 20px;">NFT信息</div>
+        <div style="color: #606266;font-size: 14px;margin-bottom: 20px;">昵称：{{ showDialogInfo.nickname }}</div>
+        <div style="color: #606266;font-size: 14px;margin-bottom: 20px;">单号：{{ showDialogInfo.id }}</div>
+        <div style="color: #606266;font-size: 14px;margin-bottom: 20px;">价格：{{ showDialogInfo.price }}</div>
+      </div>
       <el-form ref="splitForm" size="small" :model="splitDialogForm" :rules="rules" label-width="80px">
         <el-form-item label="拆分数量" prop="count">
           <el-input v-model="splitDialogForm.count" />
@@ -241,6 +253,7 @@ export default {
       },
       centerDialogVisible: false,
       splitDialogVisible: false,
+      showDialogInfo: {},
       multipleSelection: [],
       isAdd: false,
       isEdit: false,
@@ -339,6 +352,7 @@ export default {
     handleSplit(row) {
       this.splitDialogVisible = true
       this.splitDialogForm.id = row.id
+      this.showDialogInfo = row
     },
     handleConfirmSplit() {
       this.$refs.splitForm.validate(valid => {
@@ -408,6 +422,7 @@ export default {
         publishTime: '',
         visibility: true
       }
+      this.showDialogInfo = {}
       done()
     },
     handleAddDialog() {
