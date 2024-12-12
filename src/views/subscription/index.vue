@@ -30,9 +30,24 @@
             </template>
           </el-table-column>
 
-          <el-table-column label="卖方" align="left">
+          <el-table-column label="卖方Id" align="left">
             <template slot-scope="scope">
               <span>{{ scope.row.seller || '-' }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="卖方昵称" align="left">
+            <template slot-scope="scope">
+              <span>{{ scope.row.seller_nickname || '-' }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="买方Id" align="left">
+            <template slot-scope="scope">
+              <span>{{ scope.row.buyer || '-' }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="买方昵称" align="left">
+            <template slot-scope="scope">
+              <span>{{ scope.row.buyer_nickname || '-' }}</span>
             </template>
           </el-table-column>
           <el-table-column label="价格" align="left">

@@ -55,6 +55,11 @@
               <span>{{ validList[scope.row.valid] }}</span>
             </template>
           </el-table-column>
+          <el-table-column label="价格" align="left">
+            <template slot-scope="scope">
+              <span>{{ scope.row.price }}</span>
+            </template>
+          </el-table-column>
           <el-table-column align="left" label="创建时间" width="180">
             <template slot-scope="scope">
               <i class="el-icon-time" />
@@ -531,6 +536,7 @@ export default {
     fetchData() {
       this.loading = true
       const params = {
+        valid: Number(this.form.valid),
         page: this.page,
         pageSize: this.pageSize
       }
@@ -726,9 +732,9 @@ export default {
 
       border: 1px solid #37cffc;
     }
-    ::v-deep .el-radio-button__orig-radio:checked+.el-radio-button__inner{
-      color: #242833
-    }
+    // ::v-deep .el-radio-button__orig-radio:checked+.el-radio-button__inner{
+    //   color: #242833
+    // }
     .botInfo{
       justify-content: flex-start;
       &>div{
