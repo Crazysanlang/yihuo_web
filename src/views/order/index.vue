@@ -60,6 +60,13 @@
               <span>{{ scope.row.price }}</span>
             </template>
           </el-table-column>
+          <el-table-column v-if="form.valid == 3" label="是否缴纳上架费" align="center" width="120px">
+            <template slot-scope="scope">
+              <el-tag :type="scope.row.ischarge ? 'success' : 'danger'" effect="plain" >
+                {{ scope.row.ischarge ? '已缴纳' : '未缴纳' }}
+              </el-tag>
+            </template>
+          </el-table-column>
           <el-table-column align="left" label="创建时间" width="180">
             <template slot-scope="scope">
               <i class="el-icon-time" />
