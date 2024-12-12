@@ -177,16 +177,19 @@
         <div style="color: #606266;font-size: 14px;margin-bottom: 20px;">单号：{{ showDialogInfo.id }}</div>
         <div style="color: #606266;font-size: 14px;margin-bottom: 20px;">价格：{{ showDialogInfo.price }}</div>
       </div>
-      <el-form ref="splitForm" size="small" :model="splitDialogForm" :rules="rules" label-width="80px">
+      <el-form ref="splitForm" size="small" :model="splitDialogForm" :rules="rules" label-width="100px">
         <el-form-item label="拆分数量" prop="count">
-          <el-input v-model="splitDialogForm.count" />
+          <el-input v-model="splitDialogForm.count" disabled />
         </el-form-item>
-        <el-form-item label="拆分价格" prop="splitPrice">
-          <el-input v-model="splitDialogForm.splitPrice" />
+        <el-form-item label="第一份价格" prop="splitPriceFirst">
+          <el-input v-model="splitDialogForm.splitPriceFirst"  />
+        </el-form-item>
+        <el-form-item label="第二份价格" prop="splitPriceSec">
+          <el-input v-model="splitDialogForm.splitPriceSec" />
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button size="small" @click="centerDialogVisible = false">取 消</el-button>
+        <el-button size="small" @click="splitDialogVisible = false">取 消</el-button>
         <el-button type="primary" size="small" @click="handleConfirmSplit">确定拆分</el-button>
       </span>
     </el-dialog>
@@ -226,8 +229,10 @@ export default {
       },
       splitDialogForm: {
         id: '',
-        count: '',
-        splitPrice: ''
+        count: 2,
+        splitPrice: '',
+        splitPriceFirst: '',
+        splitPriceSec: ''
       },
 
       rules: {
@@ -246,10 +251,12 @@ export default {
         count: [
           { required: true, message: '请输入拆分数量', trigger: 'blur' }
         ],
-        splitPrice: [
-          { required: true, message: '请输入拆分价格', trigger: 'blur' }
+        splitPriceFirst: [
+          { required: true, message: '请输入第一份拆分价格', trigger: 'blur' }
+        ],
+        splitPriceSec: [
+          { required: true, message: '请输入第二份拆分价格', trigger: 'blur' }
         ]
-
       },
       centerDialogVisible: false,
       splitDialogVisible: false,
@@ -282,7 +289,7 @@ export default {
     },
     residueAmount() {
       return Number(this.curOrderAmount) - Number(this.convertedRmbAmount)
-    }
+    },
   },
   watch: {
     dialogVisible(val) {
@@ -291,6 +298,9 @@ export default {
         this.curOrderAmount = 0
         this.curOrderId = ''
       }
+    },
+    'splitDialogForm.splitPriceFirst': function() {
+      this.splitDialogForm.splitPriceSec = Number(this.splitDialogForm.splitPrice) - Number(this.splitDialogForm.splitPriceFirst)
     }
   },
   mounted() {
@@ -352,18 +362,20 @@ export default {
     handleSplit(row) {
       this.splitDialogVisible = true
       this.splitDialogForm.id = row.id
+      this.splitDialogForm.splitPrice = row.price
       this.showDialogInfo = row
     },
     handleConfirmSplit() {
       this.$refs.splitForm.validate(valid => {
         if (valid) {
-          const { count, splitPrice } = this.splitDialogForm
-          const prices = Array.from({ length: Number(count) }, (v, i) => Number(splitPrice))
-          const parmas = {
+          const { count, splitPriceFirst, splitPriceSec } = this.splitDialogForm
+          // const prices = Array.from({ length: Number(count) }, (v, i) => Number(splitPrice))
+          const prices = [Number(splitPriceFirst), Number(splitPriceSec)]
+          const params = {
             id: this.splitDialogForm.id,
             prices: prices
           }
-          splitNft(parmas).then(() => {
+          splitNft(params).then(() => {
             this.$message.success('拆分成功！')
             this.fetchData()
           })
