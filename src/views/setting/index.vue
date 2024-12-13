@@ -16,12 +16,24 @@
       </el-form-item>
       <el-form-item label="开盘时间" required>
         <el-form-item prop="opentime">
-          <el-time-picker v-model="valueTime" format="HH:mm" value-format="HH:mm" placeholder="选择时间" style="width: 100%;" />
+          <el-date-picker
+            v-model="valueTime"
+            type="datetime"
+            placeholder="选择开盘时间"
+            value-format="timestamp"
+            align="right"
+          />
         </el-form-item>
       </el-form-item>
       <el-form-item label="封盘时间" required>
         <el-form-item prop="stoptime">
-          <el-time-picker v-model="stopValueTime" format="HH:mm" value-format="HH:mm" placeholder="选择时间" style="width: 100%;" />
+          <el-date-picker
+            v-model="stopValueTime"
+            type="datetime"
+            placeholder="选择封盘时间"
+            value-format="timestamp"
+            align="right"
+          />
         </el-form-item>
       </el-form-item>
       <el-form-item>
@@ -86,36 +98,20 @@ export default {
     this.querySetting()
   },
   methods: {
-    setTimeFromString(timeString) {
-      const [hours, minutes] = timeString.split(':').map(Number)
-      const time = dayjs().hour(hours).minute(minutes).second(0).millisecond(0)
-      this.valueTime = time.format('HH:mm')
-      this.ruleForm.opentimeOrigin = time.format('HH:mm')
-    },
-    setTimeFromString2(timeString) {
-      const [hours, minutes] = timeString.split(':').map(Number)
-      const time = dayjs().hour(hours).minute(minutes).second(0).millisecond(0)
-      this.stopValueTime = time.format('HH:mm')
-      this.ruleForm.stoptimeOrigin = time.format('HH:mm')
-    },
     querySetting() {
       getsettings({}).then((res) => {
+        const { opentime, stoptime } = res.data
         this.ruleForm = res.data
-        const tt = `${Math.floor(res.data.opentime / 3600)}:${Math.floor((res.data.opentime % 3600) / 60)}`
-        const tt2 = `${Math.floor(res.data.stoptime / 3600)}:${Math.floor((res.data.stoptime % 3600) / 60)}`
-        this.setTimeFromString(tt)
-        this.setTimeFromString2(tt2)
+        this.valueTime = dayjs(opentime * 1000).valueOf()
+        this.stopValueTime = dayjs(stoptime * 1000).valueOf()
       })
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           const { opentimeOrigin, stoptimeOrigin } = this.ruleForm
-          // 把opentimeOrigin时间转换为秒数
-          const [hours, minutes] = opentimeOrigin.split(':').map(Number)
-          const seconds = hours * 3600 + minutes * 60
-          const [hours2, minutes2] = stoptimeOrigin.split(':').map(Number)
-          const seconds2 = hours2 * 3600 + minutes2 * 60
+          const seconds = dayjs(opentimeOrigin).unix()
+          const seconds2 = dayjs(stoptimeOrigin).unix()
           const params = {
             point_persent: Number(this.ruleForm.point_persent),
             diyajin: Number(this.ruleForm.diyajin),
