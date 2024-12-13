@@ -191,6 +191,13 @@ export function banUser(data) {
     data
   })
 }
+export function baimingdan(data) {
+  return request({
+    url: '/user/baimingdan',
+    method: 'post',
+    data
+  })
+}
 export function userAudit(data) {
   return request({
     url: '/admin_update_user_certif',
