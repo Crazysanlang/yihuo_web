@@ -120,6 +120,13 @@ export function mergeNft(data) {
     data
   })
 }
+export function transferNft(data) {
+  return request({
+    url: '/nft/transfer',
+    method: 'post',
+    data
+  })
+}
 export function batListing(data) {
   return request({
     url: '/nft/batchlisting',

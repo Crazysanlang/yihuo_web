@@ -67,7 +67,7 @@
           </el-table-column>
           <el-table-column v-if="form.valid == 3" label="是否缴纳上架费" align="center" width="120px">
             <template slot-scope="scope">
-              <el-tag :type="scope.row.ischarge ? 'success' : 'danger'" effect="plain" >
+              <el-tag :type="scope.row.ischarge ? 'success' : 'danger'" effect="plain">
                 {{ scope.row.ischarge ? '已缴纳' : '未缴纳' }}
               </el-tag>
             </template>
@@ -95,6 +95,7 @@
               <el-button style="margin:0 5px;" type="text" size="small" @click="handleDelete(scope.row)"><span>删除</span></el-button>
               <el-button style="margin:0 5px;" type="text" size="small" @click="handleListing(scope.row)"><span>上架</span></el-button>
               <el-button type="text" size="small" @click="handleSplit(scope.row)"><span>拆分</span></el-button>
+              <el-button type="text" size="small" @click="handleTransfer(scope.row)"><span>转让</span></el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -182,7 +183,7 @@
           <el-input v-model="splitDialogForm.count" disabled />
         </el-form-item>
         <el-form-item label="第一份价格" prop="splitPriceFirst">
-          <el-input v-model="splitDialogForm.splitPriceFirst"  />
+          <el-input v-model="splitDialogForm.splitPriceFirst" />
         </el-form-item>
         <el-form-item label="第二份价格" prop="splitPriceSec">
           <el-input v-model="splitDialogForm.splitPriceSec" />
@@ -197,10 +198,11 @@
 </template>
 
 <script>
-import { getList, addNft, deleteNft, updateNft, listingNft, splitNft, mergeNft, batListing, batchxiadan } from '@/api/table'
+import { getList, addNft, deleteNft, updateNft, listingNft, splitNft, mergeNft, batListing, batchxiadan, transferNft } from '@/api/table'
 import dayjs from 'dayjs'
 import ClipboardJS from 'clipboard'
 import { getToken } from '@/utils/auth'
+import calc from 'calculatorjs'
 
 export default {
   name: 'Order',
@@ -289,7 +291,7 @@ export default {
     },
     residueAmount() {
       return Number(this.curOrderAmount) - Number(this.convertedRmbAmount)
-    },
+    }
   },
   watch: {
     dialogVisible(val) {
@@ -300,7 +302,7 @@ export default {
       }
     },
     'splitDialogForm.splitPriceFirst': function() {
-      this.splitDialogForm.splitPriceSec = Number(this.splitDialogForm.splitPrice) - Number(this.splitDialogForm.splitPriceFirst)
+      this.splitDialogForm.splitPriceSec = calc.sub(Number(this.splitDialogForm.splitPrice), Number(this.splitDialogForm.splitPriceFirst))
     }
   },
   mounted() {
@@ -354,10 +356,12 @@ export default {
       this.isEdit = false
       this.isBat = true
       this.centerDialogVisible = true
+      this.dialogForm.price = this.totalPrice
     },
     handleSelectionChange(val) {
       console.log('🚀 ~ handleSelectionChange ~ val:', val)
       this.multipleSelection = val.map(item => item.id)
+      this.totalPrice = val.reduce((pre, next) => calc.add(pre, next.price), 0)
     },
     handleSplit(row) {
       this.splitDialogVisible = true
@@ -469,24 +473,19 @@ export default {
     formatTime(time) {
       return dayjs(time).format('YYYY-MM-DD HH:mm:ss')
     },
-    handleChange(row) {
-      this.$prompt('修改买家姓名', '提示', {
+    handleTransfer(row) {
+      this.$prompt('转让NFT', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning',
         inputValidator: (value) => {
           if (!value) return false
         },
-        inputErrorMessage: '买家姓名不能为空'
+        inputErrorMessage: '请输入转让人的用户ID'
       }).then(({ value }) => {
-        updateStatus({ id: row._id, stage: '0', buyer: value }).then(() => {
+        transferNft({ nft_id: row.id, user_id: Number(value) }).then(() => {
           this.$message.success('操作成功！')
           this.fetchData()
-        })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '取消输入'
         })
       })
     },
