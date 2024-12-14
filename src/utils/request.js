@@ -88,7 +88,7 @@ service.interceptors.response.use(
     const res = response.data
     if (res.code !== 200) {
       Message({
-        message: res.error || 'Error',
+        message: res.err || 'Error',
         type: 'error',
         duration: 5 * 1000
       })
@@ -97,7 +97,7 @@ service.interceptors.response.use(
           location.reload()
         })
       }
-      return Promise.reject(new Error(res.message || 'Error'))
+      return Promise.reject(new Error(res.err || 'Error'))
     } else {
       return res
     }

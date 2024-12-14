@@ -46,8 +46,8 @@
             width="160"
           >
             <template slot-scope="scope">
-              <el-button style="margin:0 auto;" type="text" size="small" @click="handleFn(scope.row,true)"><span>完成</span></el-button>
-              <el-button style="margin:0 20px;" type="text" size="small" @click="handleFn(scope.row,false)"><span>撤销</span></el-button>
+              <el-button style="margin:0 auto;" type="text" size="small" @click="handleFn(scope.row,true)"><span>提现通过</span></el-button>
+              <el-button style="margin:0 20px;" type="text" size="small" @click="handleFn(scope.row,false)"><span style="color:#F6465D">提现驳回</span></el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -78,7 +78,7 @@ export default {
         id: '',
         time: ''
       },
-      validList: {
+      statusList: {
         0: '提现中',
         1: '已完成',
         2: '已撤销'
@@ -152,12 +152,26 @@ export default {
   },
   methods: {
     handleFn(row, flag) {
-      updateTXlist(row.id, flag).then(() => {
-        this.$message({
-          type: 'success',
-          message: '操作成功!'
+      this.$confirm(
+        flag ? '确定通过该笔提现吗？' : '确定驳回该笔提现吗？',
+        '提示',
+        {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }
+      ).then(() => {
+        const params = {
+          id: row.id,
+          confirm: flag
+        }
+        updateTXlist(params).then(() => {
+          this.$message({
+            type: 'success',
+            message: '操作成功!'
+          })
+          this.fetchData()
         })
-        this.fetchData()
       })
     },
     // 时间格式化
@@ -181,6 +195,7 @@ export default {
         pageSize: this.pageSize
       }
       queryTXlist(params).then(response => {
+        console.log('🚀 ~ queryTXlist ~ response:', response)
         this.list = response.data.rows
         this.total = response.data.count
         this.loading = false
@@ -371,9 +386,6 @@ export default {
       background: rgba(250,191,95,0.09);
 
       border: 1px solid #37cffc;
-    }
-    ::v-deep .el-radio-button__orig-radio:checked+.el-radio-button__inner{
-      color: #242833
     }
     .botInfo{
       justify-content: flex-start;
