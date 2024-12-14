@@ -48,11 +48,24 @@
           </el-table-column>
           <el-table-column label="图片" align="left" width="150">
             <template slot-scope="scope">
-              <el-image
+              <div style="position: relative;">
+                <el-image
                 style="width: 100px; height: 100px"
                 :src="formatUrl(scope.row.img)"
                 fit="fit"
               />
+              <div class="tag">{{ genId(scope.row.id) }}</div>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column label="用户昵称" align="left" width="80">
+            <template slot-scope="scope">
+              <span>{{ scope.row.nickname }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="用户ID" align="left" width="80">
+            <template slot-scope="scope">
+              <span>{{ genUserId( scope.row.owner) }}</span>
             </template>
           </el-table-column>
           <el-table-column label="状态" align="left" width="80">
@@ -312,6 +325,13 @@ export default {
     clearInterval(this.interval)
   },
   methods: {
+    genId(id) {
+      return "HK" + ("0000" + id).slice(-5);
+    },
+    genUserId(id) {
+      if (!id) return "";
+      return "YH" + ("000" + id).slice(-4);
+    },
     handleBatListing() {
       if (this.multipleSelection.length == 0) {
         this.$message.error('请选择需要上架的NFT')
@@ -583,6 +603,18 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+.tag{
+  position: absolute;
+    top: 0;
+    left: 0;
+    background: linear-gradient(90deg, #68E9FE 0%, #37CFFC 100%);
+    color: rgb(0, 0, 0);
+    padding: 0px 5px;
+    height: 20px;
+    line-height: 20px;
+    border-radius:0  5px 5px 0;
+    font-size: 12px;
+}
 .avatar-uploader ::v-deep .el-upload {
     border: 1px dashed #d9d9d9;
     border-radius: 6px;
