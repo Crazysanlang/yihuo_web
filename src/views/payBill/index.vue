@@ -18,7 +18,7 @@
     <div class="list">
       <div class="tableCont">
         <el-table v-loading="loading" style="width: 100%" :data="list" element-loading-text="Loading">
-          <el-table-column label="地址" align="left">
+          <el-table-column label="地址" align="left" width="380">
             <template slot-scope="scope">
               {{ scope.row.address }}
             </template>
@@ -28,7 +28,7 @@
               <span>{{ scope.row.amount }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="状态" align="left" width="80">
+          <el-table-column label="状态" align="left">
             <template slot-scope="scope">
               <span>{{ statusList[scope.row.status] }}</span>
             </template>
@@ -192,10 +192,10 @@ export default {
       this.loading = true
       const params = {
         page: this.page,
-        pageSize: this.pageSize
+        pageSize: this.pageSize,
+        status: Number(this.form.status)
       }
       queryTXlist(params).then(response => {
-        console.log('🚀 ~ queryTXlist ~ response:', response)
         this.list = response.data.rows
         this.total = response.data.count
         this.loading = false
