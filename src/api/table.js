@@ -198,6 +198,13 @@ export function baimingdan(data) {
     data
   })
 }
+export function userGrant(data) {
+  return request({
+    url: '/user/grant',
+    method: 'post',
+    data
+  })
+}
 export function userAudit(data) {
   return request({
     url: '/admin_update_user_certif',

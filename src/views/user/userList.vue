@@ -6,6 +6,7 @@
       <div>邀请人</div>
       <div>是否封禁</div>
       <div>是否白名单</div>
+      <div>是否授权</div>
       <div>昵称</div>
       <div>bnb积分</div>
       <div>商城积分</div>
@@ -25,6 +26,10 @@
           <el-tag v-if="item.noble" type="danger">是</el-tag>
           <el-tag v-else>否</el-tag>
         </div>
+        <div>
+          <el-tag v-if="item.grant" type="danger">是</el-tag>
+          <el-tag v-else>否</el-tag>
+        </div>
         <div>{{ item.nickname }}</div>
         <div>{{ item.gold_point }}</div>
         <div>{{ item.points }}</div>
@@ -36,6 +41,8 @@
           <el-button v-else type="text" style="color:#67c23a" @click="handelBan(item,false)">解封</el-button>
           <el-button v-if="item.noble" type="text" style="color:#F6465D" @click="handelSetWhite(item,false)">取消白名单</el-button>
           <el-button v-else type="text" style="color:#67c23a" @click="handelSetWhite(item,true)">设置白名单</el-button>
+          <el-button v-if="item.grant" type="text" style="color:#F6465D" @click="handelGrant(item,false)">取消授权</el-button>
+          <el-button v-else type="text" style="color:#67c23a" @click="handelGrant(item,true)">授权</el-button>
         </div>
       </div>
     </div>
@@ -53,7 +60,7 @@
 </template>
 
 <script>
-import { getUserList, setUserPoint, banUser, baimingdan } from '@/api/table'
+import { getUserList, setUserPoint, banUser, baimingdan, userGrant } from '@/api/table'
 import moment from 'moment'
 export default {
   data() {
@@ -130,6 +137,21 @@ export default {
         type: 'warning'
       }).then(() => {
         baimingdan({ id: item.id, noble: flag }).then(res => {
+          this.$message({
+            type: 'success',
+            message: `${flag ? '设置' : '取消'}成功`
+          })
+          this.fetchData()
+        }).catch(() => {})
+      }).catch(() => {})
+    },
+    handelGrant(item, flag) {
+      this.$confirm(`确定要${flag ? '授权' : '取消授权'}该用户?`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        userGrant({ id: item.id, grant: flag }).then(res => {
           this.$message({
             type: 'success',
             message: `${flag ? '设置' : '取消'}成功`
