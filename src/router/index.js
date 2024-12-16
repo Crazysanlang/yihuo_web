@@ -23,8 +23,8 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: '欢迎页', icon: 'sjtj' },
-      hidden: true
+      meta: { title: '统计页', icon: 'sjtj' },
+      // hidden: true
     }]
   },
   {

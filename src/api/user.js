@@ -8,6 +8,13 @@ export const ajaxUser = {
       data
     })
   },
+  tongji(data) {
+    return request({
+      url: '/tongji',
+      method: 'post',
+      data
+    })
+  },
   admin_statisticsFilter(data) {
     return request({
       url: '/admin_statisticsFilter',
