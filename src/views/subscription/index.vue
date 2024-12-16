@@ -62,11 +62,14 @@
           </el-table-column>
           <el-table-column label="图片" align="left" width="150">
             <template slot-scope="scope">
-              <el-image
-                style="width: 100px; height: 100px"
-                :src="formatUrl(scope.row.img)"
-                fit="fit"
-              />
+              <div style="position: relative;">
+                <el-image
+                  style="width: 100px; height: 100px"
+                  :src="formatUrl(scope.row.img)"
+                  fit="fit"
+                />
+                <div class="tag">{{ genId(scope.row.id) }}</div>
+              </div>
             </template>
           </el-table-column>
           <el-table-column label="状态" align="left" width="100">
@@ -177,6 +180,9 @@ export default {
   },
 
   methods: {
+    genId(id) {
+      return "HK" + ("0000" + id).slice(-5);
+    },
     handleUpdate(row) {
       this.dialogForm.id = row.id
       this.dialogForm.status = row.status
@@ -238,6 +244,18 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+.tag{
+  position: absolute;
+    top: 0;
+    left: 0;
+    background: linear-gradient(90deg, #68E9FE 0%, #37CFFC 100%);
+    color: rgb(0, 0, 0);
+    padding: 0px 5px;
+    height: 20px;
+    line-height: 20px;
+    border-radius:0  5px 5px 0;
+    font-size: 12px;
+}
 .avatar-uploader ::v-deep .el-upload {
     border: 1px dashed #d9d9d9;
     border-radius: 6px;
