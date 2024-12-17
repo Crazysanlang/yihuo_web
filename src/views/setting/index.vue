@@ -9,6 +9,9 @@
       <el-form-item label="预约的抵押金" prop="diyajin">
         <el-input v-model="ruleForm.diyajin" placeholder="请输入预约的抵押金" />
       </el-form-item>
+      <el-form-item label="最多能认购几单" prop="diyajin">
+        <el-input v-model="ruleForm.max_buy_amount" placeholder="请输入最多能认购几单" />
+      </el-form-item>
       <el-form-item label="设置提前预约" prop="yuyuetime">
         <el-input v-model="ruleForm.yuyuetime" placeholder="请输入提前多久可以预约的分钟数">
           <template slot="append">分钟</template>
@@ -57,7 +60,8 @@ export default {
         diyajin: '',
         yuyuetime: '',
         opentimeOrigin: '',
-        stoptimeOrigin: ''
+        stoptimeOrigin: '',
+        max_buy_amount: ''
       },
       rules: {
         point_persent: [
@@ -68,6 +72,9 @@ export default {
         ],
         yuyuetime: [
           { required: true, message: '请输入提前预约的分钟数', trigger: 'blur' }
+        ],
+        max_buy_amount: [
+          { required: true, message: '请输入最多能认购几单', trigger: 'blur' }
         ],
         opentimeOrigin: [
           { required: true, message: '请选择开盘时间', trigger: 'change' }
@@ -116,6 +123,7 @@ export default {
             point_persent: Number(this.ruleForm.point_persent),
             diyajin: Number(this.ruleForm.diyajin),
             yuyuetime: Number(this.ruleForm.yuyuetime),
+            max_buy_amount: Number(this.ruleForm.max_buy_amount),
             opentime: seconds,
             stoptime: seconds2
           }
