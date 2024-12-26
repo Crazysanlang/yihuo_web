@@ -105,8 +105,8 @@ export default {
       if (!num) {
         return 0
       }
-      return Number(num).toFixed(digtal)
-    },
+      return num
+    }
   }
 }
 </script>
