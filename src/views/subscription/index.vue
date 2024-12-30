@@ -68,7 +68,7 @@
                   :src="formatUrl(scope.row.img)"
                   fit="fit"
                 />
-                <div class="tag">{{ genId(scope.row.id) }}</div>
+                <div class="tag">{{ genId(scope.row.nftid) }}</div>
               </div>
             </template>
           </el-table-column>
